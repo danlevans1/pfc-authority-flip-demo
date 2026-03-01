@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "agent_id": "demo-agent-001",
+  "action": "PLACE_TRADE",
+  "symbol": "SPY",
+  "side": "BUY",
+  "requested_exposure_usd": 12400000,
+  "reason": "recover losses under volatility spike"
+}

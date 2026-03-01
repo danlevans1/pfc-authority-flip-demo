@@ -1,0 +1,8 @@
+{
+  "v": 1,
+  "policy_id": "demo-finance-exposure-v1",
+  "max_exposure_usd": 500000,
+  "currency": "USD",
+  "enforcement": "deny",
+  "notes": "Demo policy: block exposure > max_exposure_usd"
+}
