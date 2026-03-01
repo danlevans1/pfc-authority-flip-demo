@@ -1,5 +1,22 @@
 # Release Notes
 
+## v0.1.4
+
+### Summary
+
+- Enforce fail-closed semantics on unexpected authority-path errors.
+- Block execution and emit error artifact if authority engine throws.
+- Added Threat Model (Demo Scope) documentation.
+- Clarified trust-anchor requirements for public key verification.
+- Added negative tests (malformed input + tamper detection).
+
+### Integrity Guarantees (unchanged)
+
+- Deterministic SHA-256 over canonical decision_core.
+- Ed25519 signature over decision_hash bytes.
+- Raw public key fingerprint binding.
+- Independent replay verification.
+
 ## v0.1.3
 
 ### Summary
