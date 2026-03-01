@@ -1,7 +1,15 @@
 import json
+import sys
 from pathlib import Path
 
-from pfc_engine import authority_check, load_json
+try:
+    from pfc_engine import authority_check, load_json
+except ModuleNotFoundError as exc:
+    if exc.name == "cryptography":
+        print("Missing dependency: cryptography. Install with: pip install -r requirements.txt")
+        raise SystemExit(1)
+    raise
+
 from verify_replay import verify_replay
 
 
@@ -9,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent
 POLICY_PATH = BASE_DIR / "policy.json"
 REQUEST_PATH = BASE_DIR / "agent_request.json"
 ARTIFACT_PATH = BASE_DIR / "artifacts" / "decision_record.json"
+ARTIFACT_DISPLAY_PATH = "artifacts/decision_record.json"
 
 
 def main() -> int:
@@ -38,7 +47,7 @@ def main() -> int:
     with ARTIFACT_PATH.open("w", encoding="utf-8") as f:
         json.dump(decision_record, f, indent=2, ensure_ascii=False)
 
-    print(f"Artifact written: {ARTIFACT_PATH}")
+    print(f"Artifact written: {ARTIFACT_DISPLAY_PATH}")
 
     ok, checks = verify_replay(POLICY_PATH, REQUEST_PATH, ARTIFACT_PATH, BASE_DIR / "keys" / "public_key.pem")
     print(f"\nReplay verification: {'PASS' if ok else 'FAIL'}")
@@ -50,4 +59,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())
