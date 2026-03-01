@@ -28,6 +28,12 @@ python verify_replay.py
 python -m unittest
 ```
 
+## Independent Verification
+
+```bash
+python verify_replay.py --artifact artifacts/decision_record.json --public-key keys/public_key.pem
+```
+
 ## Expected output (example)
 
 ```text
@@ -48,7 +54,7 @@ Replay verification: PASS
 - decision_core match: OK
 - decision_hash match: OK
 - public_key_fingerprint match: OK
-- signature verify: OK
+- signature verify (OK): OK
 ```
 
 ## Air-gapped / offline install

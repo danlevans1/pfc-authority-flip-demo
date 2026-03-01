@@ -1,5 +1,23 @@
 # Release Notes
 
+## v0.1.3 (unreleased)
+
+### Summary
+
+- README verification command corrected to match `verify_replay.py` CLI flags.
+- Verifier output now includes explicit signature reason codes.
+
+### Security/integrity highlights
+
+- Fail-closed enforcement defaults to deny when `enforcement` is missing.
+- Public key fingerprint is SHA-256 over raw Ed25519 public key bytes.
+- `decision_hash` is deterministic SHA-256 over canonical `decision_core`.
+- Signature is Ed25519 over UTF-8 bytes of `decision_hash`.
+
+### Dependencies
+
+- Runtime dependency remains `cryptography` via `requirements.txt`.
+
 ## v0.1.0
 
 ### Summary

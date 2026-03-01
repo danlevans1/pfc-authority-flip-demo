@@ -23,6 +23,32 @@ DEFAULT_ARTIFACT = BASE_DIR / "artifacts" / "decision_record.json"
 DEFAULT_PUBLIC_KEY = BASE_DIR / "keys" / "public_key.pem"
 
 
+def verify_decision_record(
+    artifact: dict[str, Any], public_key_bytes: bytes, expected_hash: str
+) -> tuple[bool, str]:
+    signature_b64 = artifact.get("signature", "")
+    if not signature_b64:
+        return False, "MISSING_SIGNATURE"
+
+    try:
+        signature = base64.b64decode(signature_b64)
+    except Exception:
+        return False, "BAD_SIGNATURE_ENCODING"
+
+    try:
+        public_key = serialization.load_pem_public_key(public_key_bytes)
+        if not isinstance(public_key, Ed25519PublicKey):
+            return False, "BAD_PUBLIC_KEY_TYPE"
+    except Exception:
+        return False, "BAD_PUBLIC_KEY"
+
+    try:
+        public_key.verify(signature, expected_hash.encode("utf-8"))
+        return True, "OK"
+    except Exception:
+        return False, "BAD_SIGNATURE"
+
+
 def verify_replay(
     policy_path: Path = DEFAULT_POLICY,
     request_path: Path = DEFAULT_REQUEST,
@@ -49,21 +75,8 @@ def verify_replay(
     expected_fingerprint = sha256_hex(public_key_bytes)
     checks.append(("public_key_fingerprint match", artifact.get("public_key_fingerprint") == expected_fingerprint))
 
-    signature_b64 = artifact.get("signature", "")
-    try:
-        signature = base64.b64decode(signature_b64)
-    except Exception:
-        signature = b""
-
-    try:
-        public_key = serialization.load_pem_public_key(public_key_bytes)
-        if not isinstance(public_key, Ed25519PublicKey):
-            raise TypeError("Public key is not Ed25519")
-        public_key.verify(signature, expected_hash.encode("utf-8"))
-        sig_ok = True
-    except Exception:
-        sig_ok = False
-    checks.append(("signature verify", sig_ok))
+    sig_ok, sig_reason = verify_decision_record(artifact, public_key_bytes, expected_hash)
+    checks.append((f"signature verify ({sig_reason})", sig_ok))
 
     ok = all(flag for _, flag in checks)
     return ok, checks
