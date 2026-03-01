@@ -1,3 +1,6 @@
+[![CI](https://github.com/danlevans1/pfc-authority-flip-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/danlevans1/pfc-authority-flip-demo/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 # pfc-authority-flip-demo
 
 Deterministic execution authority revocation demo in Python.
