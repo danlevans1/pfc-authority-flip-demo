@@ -7,6 +7,16 @@ Deterministic execution authority revocation demo in Python.
 
 A simulated agent requests a $12,400,000 trade while policy allows up to $500,000. The engine deterministically revokes execution authority, blocks the trade, and emits a signed replayable artifact.
 
+## PFC Authority Flip Demo
+
+- Agent requests $12.4M exposure
+- Policy limit is $500K
+- Execution authority is revoked (trade blocked)
+- Signed decision artifact is produced (Ed25519)
+- Replay verification recomputes hashes + verifies signature (PASS)
+
+This demonstrates enforceable interruption — not advisory logging.
+
 ## Run in under a minute
 
 ```bash
