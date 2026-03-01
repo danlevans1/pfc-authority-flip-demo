@@ -17,6 +17,24 @@ A simulated agent requests a $12,400,000 trade while policy allows up to $500,00
 
 This demonstrates enforceable interruption — not advisory logging.
 
+## Security Properties Demonstrated
+
+- Deterministic decision hashing from stable JSON (`sort_keys=True`, compact separators) and SHA-256.
+- Ed25519 signature over UTF-8 bytes of `decision_hash`.
+- Replay verifier recomputes hashes and checks signature integrity.
+
+## Threat Model (Demo Scope)
+
+This demo assumes:
+- The runtime process/host is trusted
+- The signing key is local to the demo runtime
+- Policy and request inputs are well-formed JSON
+
+Out of scope (production hardening):
+- Host compromise or key exfiltration
+- HSM/KMS-backed key custody
+- Cross-language canonicalization equivalence
+
 ## Run in under a minute
 
 ```bash
@@ -33,6 +51,8 @@ python -m unittest
 ```bash
 python verify_replay.py --artifact artifacts/decision_record.json --public-key keys/public_key.pem
 ```
+
+Note: Verification requires the verifier to obtain and pin the expected public key (or fingerprint) from a trusted channel. The fingerprint identifies which key signed the record, not whether the key is trusted.
 
 ## Expected output (example)
 

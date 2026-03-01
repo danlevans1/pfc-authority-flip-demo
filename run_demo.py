@@ -31,7 +31,23 @@ def main() -> int:
     print(f"Requested exposure: ${requested:,.0f}")
     print(f"Policy max exposure: ${limit:,.0f}\n")
 
-    allow, decision_record = authority_check(policy, request)
+    try:
+        allow, decision_record = authority_check(policy, request)
+    except Exception as exc:
+        print("STATUS: EXECUTION AUTHORITY REVOKED (ERROR)")
+        print(f"REASON: Authority engine error: {type(exc).__name__}")
+        print("RESULT: Trade blocked.")
+
+        error_record = {
+            "v": 1,
+            "event": "AUTHORITY_REVOKED_ERROR",
+            "reason": f"Authority engine error: {type(exc).__name__}",
+        }
+        ARTIFACT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with ARTIFACT_PATH.open("w", encoding="utf-8") as f:
+            json.dump(error_record, f, indent=2, ensure_ascii=False)
+        print(f"Artifact written: {ARTIFACT_DISPLAY_PATH}")
+        return 1
 
     if allow:
         print("STATUS: ALLOW")
