@@ -1,0 +1,9 @@
+=== RUN-LEVEL PROOF ===
+run_id=run-crash-10000-20260302162941
+enqueued_messages=10000
+receipts_for_run=10000
+unique_message_ids_for_run=10000
+xpending_after_completion=0
+replay_mismatches=0
+PASS=true
+========================

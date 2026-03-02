@@ -1,0 +1,8 @@
+total_intents=10000
+unique_receipts=9900
+allowed_executed=1297
+denied=8603
+malformed=503
+duplicates_detected=100
+expired_blocked=98
+mismatches=0

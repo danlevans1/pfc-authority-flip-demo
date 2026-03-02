@@ -111,3 +111,103 @@ python -m pip install --no-index --find-links vendor -r requirements.txt
 - `run_demo.py`: runs scenario, writes artifact, runs replay verification
 - `verify_replay.py`: replay + signature checks with PASS/FAIL exit status
 - `tests/test_replay.py`: blocked-path and allow-path tests
+
+## 10,000 Stability Run
+
+Implementation location: `pfc_scale/`.
+Runtime outputs:
+- `pfc_scale/ledger/` (JSONL ledgers, sqlite index, logs)
+- `pfc_scale/keys/` (local dev keys only)
+- `/tmp/pfc_sandbox/` (execution sandbox)
+
+### 1. Start Redis
+
+Supported real-Redis options on macOS:
+
+`A) Homebrew (preferred on this machine)`
+
+```bash
+brew install redis
+brew services start redis
+redis-cli ping
+```
+
+`B) Docker (optional, only if Docker Desktop works)`
+
+```bash
+docker run -d --rm -p 6379:6379 --name pfc-redis redis:7
+```
+
+Redis reference: [Install Redis on macOS using Homebrew](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/install-redis-on-mac-os/).
+
+### 2. Install deps
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r pfc_scale/requirements.txt
+```
+
+### 3. Start gate service
+
+```bash
+uvicorn pfc_scale.gate_service:app --host 127.0.0.1 --port 8000
+```
+
+### 4. Start worker
+
+```bash
+python3 -m pfc_scale.worker --redis-url redis://127.0.0.1:6379/0 --consumer-name worker-1 --run-id run-10000 --max-messages 10000
+```
+
+### 5. Enqueue 10,000 intents
+
+```bash
+python3 scripts/enqueue_10000_intents.py --redis-url redis://127.0.0.1:6379/0 --stream pfc:intents --count 10000
+```
+
+### 6. Run replay check
+
+```bash
+python3 scripts/replay_check.py --sample-size 200
+python3 scripts/replay_check.py --run-id run-10000 --sample-size 200
+```
+
+Ledger files are cumulative across runs. Use `--run-id` for a per-run audit view with the same verification rules.
+
+### 7. Fault injection
+
+```bash
+bash scripts/fault_injection_run.sh
+```
+
+## Crash Recovery Proof
+
+Run deterministic crash/restart proof with real Redis only:
+
+```bash
+bash scripts/run_crash_recovery_10000.sh
+```
+
+This validates:
+- worker crashes mid-run after terminal receipt write (`CRASH_INJECTED`)
+- restart reclaims pending messages via consumer-group recovery
+- no double execution (idempotency by `intent_id`)
+- replay verification remains strict and clean (`mismatches=0`)
+- no stuck pending messages (`XPENDING=0` at completion)
+
+### Expected run summary format
+
+```text
+total_messages=10000
+unique_intents=9900
+receipts_written=10000
+duplicate_messages=100
+allowed_executed=X
+denied=Y
+malformed=Z
+expired_blocked=M
+mismatches=0
+```
+
+Execution idempotency is enforced by `intent_id`. Duplicate stream messages with the same `intent_id` do not execute twice and produce a signed `duplicate_ack` receipt linked to original decision evidence.

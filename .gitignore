@@ -5,3 +5,29 @@ __pycache__/
 artifacts/*.json
 keys/
 .DS_Store
+
+# --- PFC runtime outputs (must never be tracked) ---
+.pfc/
+.pfc_ci/
+.pfc_agent_runs/
+.pfc_multisig/
+.pfc_trustdemo/
+*.bundle.zip
+.pfc_smoke/
+scripts/release_*_proof.zip
+.pfc_tmp/
+.pfc_demo/
+
+# --- pfc_scale local runtime outputs ---
+pfc_scale/ledger/
+pfc_scale/keys/
+pfc_scale/ledger/*.sqlite
+pfc_scale/ledger/*.db
+/tmp/pfc_sandbox/
+.pytest_cache/
+
+# --- pfc_scale milestone artifact policy ---
+pfc_scale/milestones/*.tar.gz
+pfc_scale/milestones/**/*.tar.gz
+pfc_scale/milestones/**/receipts.jsonl
+pfc_scale/milestones/**/decisions.jsonl

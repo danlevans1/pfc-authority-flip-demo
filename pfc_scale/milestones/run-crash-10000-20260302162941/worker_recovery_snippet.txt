@@ -1,0 +1,10 @@
+run_id=run-crash-10000-20260302162941
+total_messages=5001
+unique_intents=4918
+receipts_written=5001
+duplicate_messages=83
+allowed_executed=664
+denied=4254
+malformed=223
+expired_blocked=46
+mismatches=0

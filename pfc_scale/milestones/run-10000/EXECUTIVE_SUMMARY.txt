@@ -1,0 +1,27 @@
+PFC 10,000 Stability Validation
+
+Overview:
+10,000 Redis Stream messages were processed on real infrastructure with deterministic policy-gated authority enforcement and signed decision verification.
+
+Results:
+- Total messages: 10,000
+- Unique intents: 9,900
+- Duplicate messages: 100
+- Allowed executed: 1,297
+- Denied: 8,603
+- Malformed: 503
+- Expired blocked: 98
+- Replay mismatches: 0
+
+Governance Properties Validated:
+- Fail-closed execution model
+- Signed authority decisions
+- Append-only audit ledger
+- Deterministic replay verification
+- Per-run audit isolation
+- Idempotent execution
+- No fake infrastructure path
+
+Artifact Integrity:
+Bundle SHA256:
+8c197ce0a405ba5878c2489eaf0a52cbc4a2451c5979d5f741fdaf4529a92851

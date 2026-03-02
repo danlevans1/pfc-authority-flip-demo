@@ -1,0 +1,22 @@
+Run ID: run-10000
+Canonical Artifact: pfc_scale/milestones/run-10000.bundle.tar.gz
+Canonical SHA256: 647bdc904efc7f82f97abb0d4e69a455ac21d00a847ef11d28e9039293db9f71
+
+System Environment:
+- OS version: Darwin Dans-MacBook-Air.local 25.3.0 Darwin Kernel Version 25.3.0: Wed Jan 28 20:49:24 PST 2026; root:xnu-12377.81.4~5/RELEASE_ARM64_T8132 arm64
+- Python version: Python 3.14.3
+- Redis version: redis_version:8.6.1
+- Git commit hash: a2c9f8cb196a8b7026dcdc0c88853b99d2c47744
+
+Execution Context:
+- Real Redis: Yes (Homebrew service)
+- Fake Redis fallback: No
+- Replay mismatches: 0
+- Ledger type: Append-only JSONL
+- Decision verification: Signature enforced
+- Expiry enforcement: Yes
+- Commit-boundary recheck: Enabled
+- Idempotency enforcement: Yes (intent_id primary key)
+
+Date:
+- Current UTC timestamp: 2026-03-02T08:40:09Z

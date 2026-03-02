@@ -1,0 +1,19 @@
+PFC Crash-Recovery Stability Validation
+
+Scope
+A forced hard crash was injected into the worker during a 10,000-message Redis Streams run (run_id run-crash-10000-20260302162941). The worker restarted and reclaimed pending consumer-group messages for deterministic completion under the same signed-decision and signed-receipt controls.
+
+What was tested
+- Real Redis Streams consumer group operation on 127.0.0.1:6379.
+- Mid-run worker crash after terminal handling of 5,000 messages.
+- Recovery using pending-entry reclaim (XAUTOCLAIM with XCLAIM fallback).
+- Run-scoped replay verification of signed decision and receipt linkage.
+
+What was proven
+- No lost work: run-level receipts reached 10,000 unique message IDs.
+- No stuck pending work: XPENDING after completion was 0.
+- Deterministic audit integrity: replay_check for run_id reported mismatches=0.
+- Governance invariants remained enforced during crash and recovery.
+
+Why it matters
+This demonstrates that authority-governed execution remains verifiable and recoverable under process failure, with deterministic run-level evidence sufficient for operational audit and incident review.

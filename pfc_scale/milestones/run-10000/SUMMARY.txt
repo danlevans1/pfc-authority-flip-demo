@@ -1,0 +1,11 @@
+Run ID: run-10000
+Total Messages: 10000
+Unique Intents: 9900
+Duplicate Messages: 100
+Expired Blocked: 98
+Malformed: 503
+Allowed Executed: 1297
+Denied: 8603
+Replay Mismatches: 0
+Redis: real (Homebrew)
+Ledger Disk Usage: 36M

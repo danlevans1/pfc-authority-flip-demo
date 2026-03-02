@@ -1,0 +1,12 @@
+Run ID: run-crash-10000-20260302162941
+Canonical Artifact: pfc_scale/milestones/run-crash-10000-20260302162941.bundle.tar.gz
+Canonical SHA256: 689d18ce539157d74089587aafbb2d08ba588e76a7b56c1f30ba8e2f3dfe1bbc
+
+System Environment:
+- OS version: Darwin Dans-MacBook-Air.local 25.3.0 Darwin Kernel Version 25.3.0: Wed Jan 28 20:49:24 PST 2026; root:xnu-12377.81.4~5/RELEASE_ARM64_T8132 arm64
+- Python version: Python 3.14.3
+- Redis version: redis_version:8.6.1
+- Git commit hash: a2c9f8cb196a8b7026dcdc0c88853b99d2c47744
+
+Date:
+- Current UTC timestamp: 2026-03-02T16:41:56Z

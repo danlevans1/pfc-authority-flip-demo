@@ -1,0 +1,9 @@
+Run ID: run-crash-10000-20260302162941
+Enqueued messages: 10000
+Receipts for run (unique message_id): 10000
+XPENDING after completion: 0
+Replay mismatches: 0
+Crash injected: Yes (after=5000)
+Recovery: Yes (XAUTOCLAIM / XCLAIM fallback)
+Real Redis: Yes (127.0.0.1:6379)
+Notes: Deterministic crash + reclaim + completion proof
