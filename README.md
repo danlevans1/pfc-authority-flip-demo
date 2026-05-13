@@ -7,12 +7,26 @@ PFC Authority Flip Demo shows how an AI agent's authority can be revoked at the 
 
 A simulated agent requests a $12,400,000 trade while policy allows up to $500,000. The engine deterministically revokes execution authority, blocks the trade, and emits a signed replayable artifact.
 
+## Try it now
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python run_demo.py
+python verify_replay.py
+```
+
 ```mermaid
 flowchart LR
-    A[AI Agent] --> B[PFC Policy Runtime]
-    B --> C[Authority Flip Decision]
-    C --> D[Signed Receipt]
-    D --> E[Offline Replay Verification]
+    A[AI Agent Request] --> B[PFC Policy Runtime]
+    B --> C{Execution Boundary Decision}
+    C -->|Within policy| D[Authority remains active]
+    D --> E[Simulated action may proceed]
+    C -->|Policy violation| F[Authority revoked]
+    F --> G[Real-world action blocked]
+    F --> H[Signed Receipt]
+    H --> I[Offline Replay Verification]
 ```
 
 ## What it demonstrates
