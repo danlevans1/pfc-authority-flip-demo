@@ -3,11 +3,19 @@
 
 # pfc-authority-flip-demo
 
-Deterministic execution authority revocation demo in Python.
+PFC Authority Flip Demo shows how an AI agent's authority can be revoked at the execution boundary before a real-world action occurs, with a deterministic signed receipt and replayable verification.
 
 A simulated agent requests a $12,400,000 trade while policy allows up to $500,000. The engine deterministically revokes execution authority, blocks the trade, and emits a signed replayable artifact.
 
-## PFC Authority Flip Demo
+```mermaid
+flowchart LR
+    A[AI Agent] --> B[PFC Policy Runtime]
+    B --> C[Authority Flip Decision]
+    C --> D[Signed Receipt]
+    D --> E[Offline Replay Verification]
+```
+
+## What it demonstrates
 
 - Agent requests $12.4M exposure
 - Policy limit is $500K
@@ -15,7 +23,25 @@ A simulated agent requests a $12,400,000 trade while policy allows up to $500,00
 - Signed decision artifact is produced (Ed25519)
 - Replay verification recomputes hashes + verifies signature (PASS)
 
-This demonstrates enforceable interruption — not advisory logging.
+This demonstrates enforceable interruption, not advisory logging.
+
+## Why this matters
+
+This is not logging, monitoring, or advisory guardrails after an agent has already acted. The policy runtime makes an enforceable interruption before execution, so a blocked action never reaches the real-world system it was trying to affect.
+
+The signed receipt makes the decision deterministic, portable, and replayable offline: reviewers can verify what policy was applied, what request was evaluated, and why execution authority was revoked.
+
+## Who this is for
+
+- AI agent developers
+- Security engineers
+- Fintech/payment teams
+- Infrastructure teams
+- AI governance researchers
+
+## Recommended GitHub topics
+
+`ai-governance`, `ai-security`, `ai-agents`, `runtime-security`, `policy-engine`, `execution-control`, `cryptography`, `ed25519`, `deterministic-systems`, `agentic-ai`
 
 ## Security Properties Demonstrated
 
